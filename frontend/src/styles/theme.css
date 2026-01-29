@@ -1,0 +1,346 @@
+@custom-variant dark (&:is(.dark *));
+
+:root {
+  --font-size: 16px;
+  
+  /* Brand Colors - Academic & Professional */
+  --background: #fafbfc;
+  --foreground: #1e293b;
+  --card: #ffffff;
+  --card-foreground: #1e293b;
+  --popover: #ffffff;
+  --popover-foreground: #1e293b;
+  
+  /* Primary - Muted Blue (Trust, Learning) */
+  --primary: #4f46e5;
+  --primary-foreground: #ffffff;
+  --primary-light: #818cf8;
+  --primary-dark: #3730a3;
+  
+  /* Secondary - Teal (AI Intelligence) */
+  --secondary: #0d9488;
+  --secondary-foreground: #ffffff;
+  --secondary-light: #5eead4;
+  --secondary-dark: #115e59;
+  
+  /* Accent - Amber (Success, Mastery) */
+  --accent: #f59e0b;
+  --accent-foreground: #ffffff;
+  --accent-light: #fbbf24;
+  --accent-dark: #d97706;
+  
+  /* Semantic Colors */
+  --success: #10b981;
+  --success-foreground: #ffffff;
+  --success-light: #34d399;
+  --success-dark: #059669;
+  
+  --warning: #f59e0b;
+  --warning-foreground: #ffffff;
+  --warning-light: #fbbf24;
+  --warning-dark: #d97706;
+  
+  --error: #ef4444;
+  --error-foreground: #ffffff;
+  --error-light: #f87171;
+  --error-dark: #dc2626;
+  
+  --info: #3b82f6;
+  --info-foreground: #ffffff;
+  --info-light: #60a5fa;
+  --info-dark: #2563eb;
+  
+  /* Neutral Scale - Warm Grays */
+  --muted: #f1f5f9;
+  --muted-foreground: #64748b;
+  --muted-hover: #e2e8f0;
+  
+  /* Surface Colors */
+  --surface: #ffffff;
+  --surface-alt: #f8fafc;
+  --surface-hover: #f1f5f9;
+  
+  /* Text Colors */
+  --text-primary: #1e293b;
+  --text-secondary: #475569;
+  --text-muted: #64748b;
+  --text-disabled: #94a3b8;
+  
+  /* Borders & Rings */
+  --border: #e2e8f0;
+  --border-hover: #cbd5e1;
+  --input: #e2e8f0;
+  --input-background: #ffffff;
+  --switch-background: #cbd5e1;
+  --ring: #4f46e5;
+  --focus-ring: #818cf8;
+  
+  /* Chart Colors */
+  --chart-1: #4f46e5;
+  --chart-2: #0d9488;
+  --chart-3: #f59e0b;
+  --chart-4: #ef4444;
+  --chart-5: #8b5cf6;
+  
+  /* Font Weights */
+  --font-weight-medium: 500;
+  --font-weight-normal: 400;
+  
+  /* Border Radius */
+  --radius: 0.75rem;
+  
+  /* Sidebar */
+  --sidebar: #ffffff;
+  --sidebar-foreground: #1e293b;
+  --sidebar-primary: #4f46e5;
+  --sidebar-primary-foreground: #ffffff;
+  --sidebar-accent: #f8fafc;
+  --sidebar-accent-foreground: #1e293b;
+  --sidebar-border: #e2e8f0;
+  --sidebar-ring: #818cf8;
+}
+
+.dark {
+  /* Dark Mode - Warm Dark Palette */
+  --background: #0f172a;
+  --foreground: #f1f5f9;
+  --card: #1e293b;
+  --card-foreground: #f1f5f9;
+  --popover: #1e293b;
+  --popover-foreground: #f1f5f9;
+  
+  /* Primary - Lighter for dark mode */
+  --primary: #818cf8;
+  --primary-foreground: #0f172a;
+  --primary-light: #a5b4fc;
+  --primary-dark: #6366f1;
+  
+  /* Secondary - Brighter teal */
+  --secondary: #14b8a6;
+  --secondary-foreground: #0f172a;
+  --secondary-light: #2dd4bf;
+  --secondary-dark: #0d9488;
+  
+  /* Accent - Warm amber (brighter to match light mode) */
+  --accent: #f59e0b;
+  --accent-foreground: #0f172a;
+  --accent-light: #fbbf24;
+  --accent-dark: #d97706;
+  
+  /* Semantic Colors - Adjusted for dark */
+  --success: #10b981;
+  --success-foreground: #ffffff;
+  --success-light: #34d399;
+  --success-dark: #059669;
+  
+  --warning: #fbbf24;
+  --warning-foreground: #0f172a;
+  --warning-light: #fcd34d;
+  --warning-dark: #f59e0b;
+  
+  --error: #f87171;
+  --error-foreground: #ffffff;
+  --error-light: #fca5a5;
+  --error-dark: #ef4444;
+  
+  --info: #60a5fa;
+  --info-foreground: #0f172a;
+  --info-light: #93c5fd;
+  --info-dark: #3b82f6;
+  
+  /* Neutral Scale - Dark warm grays */
+  --muted: #334155;
+  --muted-foreground: #94a3b8;
+  --muted-hover: #475569;
+  
+  /* Surface Colors */
+  --surface: #1e293b;
+  --surface-alt: #334155;
+  --surface-hover: #475569;
+  
+  /* Text Colors */
+  --text-primary: #f1f5f9;
+  --text-secondary: #cbd5e1;
+  --text-muted: #94a3b8;
+  --text-disabled: #64748b;
+  
+  /* Borders & Rings */
+  --border: #334155;
+  --border-hover: #475569;
+  --input: #334155;
+  --input-background: #1e293b;
+  --switch-background: #475569;
+  --ring: #818cf8;
+  --focus-ring: #a5b4fc;
+  
+  /* Chart Colors - Adjusted for dark */
+  --chart-1: #818cf8;
+  --chart-2: #14b8a6;
+  --chart-3: #fbbf24;
+  --chart-4: #f87171;
+  --chart-5: #a78bfa;
+  
+  /* Sidebar */
+  --sidebar: #1e293b;
+  --sidebar-foreground: #f1f5f9;
+  --sidebar-primary: #818cf8;
+  --sidebar-primary-foreground: #0f172a;
+  --sidebar-accent: #334155;
+  --sidebar-accent-foreground: #f1f5f9;
+  --sidebar-border: #334155;
+  --sidebar-ring: #a5b4fc;
+}
+
+@theme inline {
+  --color-background: var(--background);
+  --color-foreground: var(--foreground);
+  --color-card: var(--card);
+  --color-card-foreground: var(--card-foreground);
+  --color-popover: var(--popover);
+  --color-popover-foreground: var(--popover-foreground);
+  
+  --color-primary: var(--primary);
+  --color-primary-foreground: var(--primary-foreground);
+  --color-primary-light: var(--primary-light);
+  --color-primary-dark: var(--primary-dark);
+  
+  --color-secondary: var(--secondary);
+  --color-secondary-foreground: var(--secondary-foreground);
+  --color-secondary-light: var(--secondary-light);
+  --color-secondary-dark: var(--secondary-dark);
+  
+  --color-accent: var(--accent);
+  --color-accent-foreground: var(--accent-foreground);
+  --color-accent-light: var(--accent-light);
+  --color-accent-dark: var(--accent-dark);
+  
+  --color-success: var(--success);
+  --color-success-foreground: var(--success-foreground);
+  --color-success-light: var(--success-light);
+  --color-success-dark: var(--success-dark);
+  
+  --color-warning: var(--warning);
+  --color-warning-foreground: var(--warning-foreground);
+  --color-warning-light: var(--warning-light);
+  --color-warning-dark: var(--warning-dark);
+  
+  --color-error: var(--error);
+  --color-error-foreground: var(--error-foreground);
+  --color-error-light: var(--error-light);
+  --color-error-dark: var(--error-dark);
+  
+  --color-info: var(--info);
+  --color-info-foreground: var(--info-foreground);
+  --color-info-light: var(--info-light);
+  --color-info-dark: var(--info-dark);
+  
+  --color-muted: var(--muted);
+  --color-muted-foreground: var(--muted-foreground);
+  --color-muted-hover: var(--muted-hover);
+  
+  --color-surface: var(--surface);
+  --color-surface-alt: var(--surface-alt);
+  --color-surface-hover: var(--surface-hover);
+  
+  --color-text-primary: var(--text-primary);
+  --color-text-secondary: var(--text-secondary);
+  --color-text-muted: var(--text-muted);
+  --color-text-disabled: var(--text-disabled);
+  
+  --color-border: var(--border);
+  --color-border-hover: var(--border-hover);
+  --color-input: var(--input);
+  --color-input-background: var(--input-background);
+  --color-switch-background: var(--switch-background);
+  --color-ring: var(--ring);
+  --color-focus-ring: var(--focus-ring);
+  
+  --color-chart-1: var(--chart-1);
+  --color-chart-2: var(--chart-2);
+  --color-chart-3: var(--chart-3);
+  --color-chart-4: var(--chart-4);
+  --color-chart-5: var(--chart-5);
+  
+  --radius-sm: calc(var(--radius) - 4px);
+  --radius-md: calc(var(--radius) - 2px);
+  --radius-lg: var(--radius);
+  --radius-xl: calc(var(--radius) + 4px);
+  
+  --color-sidebar: var(--sidebar);
+  --color-sidebar-foreground: var(--sidebar-foreground);
+  --color-sidebar-primary: var(--sidebar-primary);
+  --color-sidebar-primary-foreground: var(--sidebar-primary-foreground);
+  --color-sidebar-accent: var(--sidebar-accent);
+  --color-sidebar-accent-foreground: var(--sidebar-accent-foreground);
+  --color-sidebar-border: var(--sidebar-border);
+  --color-sidebar-ring: var(--sidebar-ring);
+}
+
+@layer base {
+  * {
+    @apply border-border outline-ring/50;
+  }
+
+  body {
+    @apply bg-background text-foreground antialiased;
+  }
+
+  html {
+    font-size: var(--font-size);
+  }
+
+  h1 {
+    font-size: var(--text-2xl);
+    font-weight: var(--font-weight-medium);
+    line-height: 1.5;
+    color: var(--text-primary);
+  }
+
+  h2 {
+    font-size: var(--text-xl);
+    font-weight: var(--font-weight-medium);
+    line-height: 1.5;
+    color: var(--text-primary);
+  }
+
+  h3 {
+    font-size: var(--text-lg);
+    font-weight: var(--font-weight-medium);
+    line-height: 1.5;
+    color: var(--text-primary);
+  }
+
+  h4 {
+    font-size: var(--text-base);
+    font-weight: var(--font-weight-medium);
+    line-height: 1.5;
+    color: var(--text-primary);
+  }
+
+  label {
+    font-size: var(--text-base);
+    font-weight: var(--font-weight-medium);
+    line-height: 1.5;
+  }
+
+  button {
+    font-size: var(--text-base);
+    font-weight: var(--font-weight-medium);
+    line-height: 1.5;
+  }
+
+  input {
+    font-size: var(--text-base);
+    font-weight: var(--font-weight-normal);
+    line-height: 1.5;
+  }
+  
+  /* Smooth transitions */
+  @media (prefers-reduced-motion: no-preference) {
+    * {
+      transition-property: background-color, border-color, color, fill, stroke;
+      transition-timing-function: cubic-bezier(0.4, 0, 0.2, 1);
+      transition-duration: 150ms;
+    }
+  }
+}
