@@ -8,6 +8,7 @@ import { Label } from '../ui/label';
 import { Checkbox } from '../ui/checkbox';
 import { Card } from '../ui/card';
 import { Alert, AlertDescription } from '../ui/alert';
+import { API_BASE_URL } from '../../../lib/api';
 
 export function SignIn() {
   const navigate = useNavigate();
@@ -26,7 +27,7 @@ export function SignIn() {
     setIsLoading(true);
 
     try {
-      const response = await fetch('http://localhost:8080/api/auth/login', {
+      const response = await fetch(`${API_BASE_URL}/auth/login`, {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json',

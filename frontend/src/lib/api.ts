@@ -1,5 +1,9 @@
 // API Base URL
-const API_BASE_URL = 'http://localhost:8080/api';
+export const API_BASE_URL = import.meta.env.VITE_API_BASE_URL ?? 'http://localhost:8080/api';
+
+export function apiUrl(path: string): string {
+  return `${API_BASE_URL}${path}`;
+}
 
 // Types
 export interface AICard {
@@ -76,7 +80,7 @@ export interface LessonProgress {
 export const lessonApi = {
   // Generate AI cards for a lesson
   async generateAICards(lessonId: number): Promise<GenerateResponse> {
-    const response = await fetch(`${API_BASE_URL}/lessons/${lessonId}/generate`, {
+    const response = await fetch(apiUrl(`/lessons/${lessonId}/generate`), {
       method: 'POST',
     });
 
@@ -94,7 +98,7 @@ export const lessonApi = {
 
   // Get lesson details
   async getLesson(lessonId: number): Promise<Lesson> {
-    const response = await fetch(`${API_BASE_URL}/lessons/${lessonId}`);
+    const response = await fetch(apiUrl(`/lessons/${lessonId}`));
 
     if (!response.ok) {
       if (response.status === 404) {
@@ -108,7 +112,7 @@ export const lessonApi = {
 
   // Get AI cards for a lesson
   async getAICards(lessonId: number): Promise<AICard[]> {
-    const response = await fetch(`${API_BASE_URL}/lessons/${lessonId}/cards`);
+    const response = await fetch(apiUrl(`/lessons/${lessonId}/cards`));
 
     if (!response.ok) {
       throw new Error('Failed to fetch AI cards');
@@ -119,7 +123,7 @@ export const lessonApi = {
 
   // Get lessons for a user
   async getLessons(userId: number): Promise<Lesson[]> {
-    const response = await fetch(`${API_BASE_URL}/lessons?userId=${userId}`);
+    const response = await fetch(apiUrl(`/lessons?userId=${userId}`));
 
     if (!response.ok) {
       throw new Error('Failed to fetch lessons');
@@ -130,7 +134,7 @@ export const lessonApi = {
 
   // Delete a lesson
   async deleteLesson(lessonId: number): Promise<void> {
-    const response = await fetch(`${API_BASE_URL}/lessons/${lessonId}`, {
+    const response = await fetch(apiUrl(`/lessons/${lessonId}`), {
       method: 'DELETE',
     });
 
@@ -145,7 +149,7 @@ export const lessonApi = {
     if (sessionId) body.sessionId = sessionId;
     if (lessonId) body.lessonId = lessonId;
 
-    const response = await fetch(`${API_BASE_URL}/chat`, {
+    const response = await fetch(apiUrl('/chat'), {
       method: 'POST',
       headers: {
         'Content-Type': 'application/json',
@@ -181,7 +185,7 @@ export const lessonApi = {
 
   // Create a new chat session
   async createChatSession(userId: number, title: string): Promise<ChatSession> {
-    const response = await fetch(`${API_BASE_URL}/chat/sessions`, {
+    const response = await fetch(apiUrl('/chat/sessions'), {
       method: 'POST',
       headers: {
         'Content-Type': 'application/json',
@@ -198,7 +202,7 @@ export const lessonApi = {
 
   // Get all chat sessions for a user
   async getChatSessions(userId: number): Promise<ChatSession[]> {
-    const response = await fetch(`${API_BASE_URL}/chat/sessions?userId=${userId}`);
+    const response = await fetch(apiUrl(`/chat/sessions?userId=${userId}`));
 
     if (!response.ok) {
       throw new Error('Failed to fetch chat sessions');
@@ -209,7 +213,7 @@ export const lessonApi = {
 
   // Get chat message history for a session
   async getChatHistory(sessionId: number): Promise<ChatHistoryResponse> {
-    const response = await fetch(`${API_BASE_URL}/chat/sessions/${sessionId}/history`);
+    const response = await fetch(apiUrl(`/chat/sessions/${sessionId}/history`));
 
     if (!response.ok) {
       throw new Error('Failed to fetch chat history');
@@ -220,7 +224,7 @@ export const lessonApi = {
 
   // Delete a chat session
   async deleteChatSession(sessionId: number): Promise<void> {
-    const response = await fetch(`${API_BASE_URL}/chat/sessions/${sessionId}`, {
+    const response = await fetch(apiUrl(`/chat/sessions/${sessionId}`), {
       method: 'DELETE',
     });
 
@@ -231,7 +235,7 @@ export const lessonApi = {
 
   // Update study progress for a lesson
   async updateStudyProgress(lessonId: number, userId: number, progress: number): Promise<void> {
-    const response = await fetch(`${API_BASE_URL}/study/${lessonId}/progress`, {
+    const response = await fetch(apiUrl(`/study/${lessonId}/progress`), {
       method: 'POST',
       headers: {
         'Content-Type': 'application/json',
@@ -246,7 +250,7 @@ export const lessonApi = {
 
   // Get user progress summary
   async getProgressSummary(userId: number): Promise<ProgressSummary> {
-    const response = await fetch(`${API_BASE_URL}/study/progress?userId=${userId}`);
+    const response = await fetch(apiUrl(`/study/progress?userId=${userId}`));
 
     if (!response.ok) {
       throw new Error('Failed to fetch progress summary');

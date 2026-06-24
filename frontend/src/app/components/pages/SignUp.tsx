@@ -8,6 +8,7 @@ import { Label } from '../ui/label';
 import { Checkbox } from '../ui/checkbox';
 import { Card } from '../ui/card';
 import { Progress } from '../ui/progress';
+import { API_BASE_URL } from '../../../lib/api';
 import { Alert, AlertDescription } from '../ui/alert';
 
 export function SignUp() {
@@ -50,7 +51,7 @@ export function SignUp() {
     setIsLoading(true);
 
     try {
-      const response = await fetch('http://localhost:8080/api/auth/register', {
+      const response = await fetch(`${API_BASE_URL}/auth/register`, {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json',

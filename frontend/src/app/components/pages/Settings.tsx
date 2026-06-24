@@ -14,7 +14,7 @@ import { useTheme } from '../../../lib/theme-context';
 import { AlertDialog, AlertDialogAction, AlertDialogCancel, AlertDialogContent, AlertDialogDescription, AlertDialogFooter, AlertDialogHeader, AlertDialogTitle, AlertDialogTrigger } from '../ui/alert-dialog';
 import jsPDF from 'jspdf';
 import autoTable from 'jspdf-autotable';
-import { lessonApi, type ProgressSummary } from '../../../lib/api';
+import { API_BASE_URL, lessonApi, type ProgressSummary } from '../../../lib/api';
 import { type APILesson } from '../../../lib/lessons-cache';
 
 export function Settings() {
@@ -98,7 +98,7 @@ export function Settings() {
     setIsChangingPassword(true);
 
     try {
-      const response = await fetch('http://localhost:8080/api/auth/change-password', {
+      const response = await fetch(`${API_BASE_URL}/auth/change-password`, {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json',
@@ -149,7 +149,7 @@ export function Settings() {
 
       // Fetch all data
       const [lessonsResponse, progressSummary] = await Promise.all([
-        fetch(`http://localhost:8080/api/lessons?userId=${userId}`),
+        fetch(`${API_BASE_URL}/lessons?userId=${userId}`),
         lessonApi.getProgressSummary(parseInt(userId))
       ]);
 
@@ -266,7 +266,7 @@ export function Settings() {
     setIsDeleting(true);
 
     try {
-      const response = await fetch('http://localhost:8080/api/auth/delete-account', {
+      const response = await fetch(`${API_BASE_URL}/auth/delete-account`, {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json',
@@ -292,7 +292,7 @@ export function Settings() {
 
       // Redirect to home page after toast
       setTimeout(() => {
-        window.location.href = 'http://localhost:5173';
+        window.location.href = window.location.origin;
       }, 2100);
     } catch (error) {
       toast.error('Failed to delete account', {

@@ -38,6 +38,7 @@ public class UserProgressService {
 
         // Get all study sessions for the user
         List<StudySession> sessions = studySessionRepository.findByUserId(userId);
+        List<ChatMessage> messages = chatMessageRepository.findByUserIdOrderByTimestampAsc(userId);
 
         // Calculate mastered lessons (100% progress)
         int masteredLessons = (int) sessions.stream()
@@ -54,7 +55,7 @@ public class UserProgressService {
         }
 
         // Calculate streak days
-        int streakDays = calculateStreakDays(userId);
+        int streakDays = calculateStreakDays(lessons, sessions, messages);
 
         return UserProgressSummary.builder()
                 .userId(userId)
@@ -65,24 +66,21 @@ public class UserProgressService {
                 .build();
     }
 
-    private int calculateStreakDays(Long userId) {
+    private int calculateStreakDays(List<Lesson> lessons, List<StudySession> sessions, List<ChatMessage> messages) {
         Set<LocalDate> activeDates = new HashSet<>();
 
-        List<Lesson> lessons = lessonRepository.findByUserIdOrderByUploadedAtDesc(userId);
         lessons.forEach(lesson -> {
             if (lesson.getUploadedAt() != null) {
                 activeDates.add(lesson.getUploadedAt().toLocalDate());
             }
         });
 
-        List<StudySession> sessions = studySessionRepository.findByUserId(userId);
         sessions.forEach(session -> {
             if (session.getLastReviewed() != null) {
                 activeDates.add(session.getLastReviewed().toLocalDate());
             }
         });
 
-        List<ChatMessage> messages = chatMessageRepository.findByUserIdOrderByTimestampAsc(userId);
         messages.forEach(message -> {
             if (message.getTimestamp() != null) {
                 activeDates.add(message.getTimestamp().toLocalDate());
@@ -111,7 +109,7 @@ public class UserProgressService {
             }
         }
 
-        log.info("Calculated streak for userId={}: {} days", userId, streak);
+        log.info("Calculated streak: {} days", streak);
         return streak;
     }
 }

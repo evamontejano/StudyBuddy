@@ -1,5 +1,6 @@
 package com.studybuddy.web;
 
+import com.studybuddy.ai.BedrockService;
 import com.studybuddy.domain.AICard;
 import com.studybuddy.domain.AICardType;
 import com.studybuddy.domain.Lesson;
@@ -27,13 +28,16 @@ public class AICardController {
     private final LessonRepository lessonRepository;
     private final AICardRepository aiCardRepository;
     private final Optional<ChatModel> chatModel;
+    private final BedrockService bedrockService;
     private final Environment env;
     private final ObjectMapper objectMapper = new ObjectMapper();
 
-    public AICardController(LessonRepository lessonRepository, AICardRepository aiCardRepository, Optional<ChatModel> chatModel, Environment env) {
+    public AICardController(LessonRepository lessonRepository, AICardRepository aiCardRepository,
+                            Optional<ChatModel> chatModel, BedrockService bedrockService, Environment env) {
         this.lessonRepository = lessonRepository;
         this.aiCardRepository = aiCardRepository;
         this.chatModel = chatModel;
+        this.bedrockService = bedrockService;
         this.env = env;
     }
 
@@ -42,10 +46,9 @@ public class AICardController {
         log.info("Generating AI cards for lesson id={}", id);
         Optional<Lesson> opt = lessonRepository.findById(id);
         if (opt.isEmpty()) return ResponseEntity.notFound().build();
-        if (chatModel.isEmpty()) {
-            String model = "none";
+        if (chatModel.isEmpty() && !bedrockService.isEnabled()) {
             return ResponseEntity.status(503)
-                    .header("X-AI-Model", model)
+                    .header("X-AI-Model", "none")
                     .body("AI service is not available. Please try again later.");
         }
         Lesson lesson = opt.get();
@@ -57,18 +60,18 @@ public class AICardController {
         }
 
         List<AICard> toSave = new ArrayList<>();
-        
+
         try {
             String summaryPrompt = "Summarize the following material in under 150 words in a student-friendly tone:\n" + text;
-            String summary = chatModel.get().call(summaryPrompt);
+            String summary = callAI(summaryPrompt);
             toSave.add(AICard.builder().lessonId(id).type(AICardType.SUMMARY).content(summary).build());
 
             String notesPrompt = "Extract the key concepts, definitions, and formulas from the following material as bullet points (max 10):\n" + text;
-            String notes = chatModel.get().call(notesPrompt);
+            String notes = callAI(notesPrompt);
             toSave.add(AICard.builder().lessonId(id).type(AICardType.KEY_NOTES).content(notes).build());
 
             String flashcardPrompt = "Create 5 multiple-choice questions (MCQ) to test understanding of the following material. For each question, provide exactly three options (two incorrect, one correct). Respond ONLY with a raw JSON array. Each element must be an object with fields: 'question' (string), 'options' (array of exactly 3 strings), and 'correctIndex' (number 0..2 indicating the correct option). No markdown, no extra text.\n" + text;
-            String flashcardsJson = chatModel.get().call(flashcardPrompt);
+            String flashcardsJson = callAI(flashcardPrompt);
             try {
                 List<java.util.Map<String, Object>> items = objectMapper.readValue(
                         flashcardsJson, new TypeReference<List<java.util.Map<String, Object>>>() {}
@@ -127,6 +130,18 @@ public class AICardController {
         } catch (Exception e) {
             return ResponseEntity.badRequest().body("Invalid quiz format or request: " + e.getMessage());
         }
+    }
+
+    /** Use Ollama if available, otherwise fall back to Amazon Bedrock. */
+    private String callAI(String prompt) {
+        if (chatModel.isPresent()) {
+            try {
+                return chatModel.get().call(prompt);
+            } catch (Exception ex) {
+                log.warn("Ollama call failed, falling back to Bedrock: {}", ex.getMessage());
+            }
+        }
+        return bedrockService.call(prompt);
     }
 
     // Minimal DTO for parsing quiz

@@ -21,6 +21,7 @@ import {
 import { toast } from 'sonner';
 import { lessonsListCache, type APILesson } from '../../../lib/lessons-cache';
 import { lessonApi, type ChatSession, type ChatMessage, type ChatHistoryResponse } from '../../../lib/api';
+import { API_BASE_URL } from '../../../lib/api';
 
 interface Message {
   id: string;
@@ -125,7 +126,7 @@ export function Chat() {
           return;
         }
 
-        const response = await fetch(`http://localhost:8080/api/lessons?userId=${userId}`, {
+        const response = await fetch(`${API_BASE_URL}/lessons?userId=${userId}`, {
           headers: {
             'Authorization': `Bearer ${token}`,
             'Content-Type': 'application/json',

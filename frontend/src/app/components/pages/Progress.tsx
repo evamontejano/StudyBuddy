@@ -6,7 +6,7 @@ import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from '.
 import { Tabs, TabsContent, TabsList, TabsTrigger } from '../ui/tabs';
 import { LineChart, Line, BarChart, Bar, PieChart, Pie, Cell, XAxis, YAxis, CartesianGrid, Tooltip, Legend, ResponsiveContainer } from 'recharts';
 import { mockProgressData, mockLessons, mockStudySessions } from '../../../lib/mock-data';
-import { lessonApi, type ProgressSummary } from '../../../lib/api';
+import { API_BASE_URL, lessonApi, type ProgressSummary } from '../../../lib/api';
 import { type APILesson } from '../../../lib/lessons-cache';
 
 export function Progress() {
@@ -24,7 +24,7 @@ export function Progress() {
           setProgressSummary(summary);
 
           // Fetch lessons (which now includes lastReviewed)
-          const lessonsResponse = await fetch(`http://localhost:8080/api/lessons?userId=${userId}`);
+          const lessonsResponse = await fetch(`${API_BASE_URL}/lessons?userId=${userId}`);
           if (lessonsResponse.ok) {
             const lessonsData = await lessonsResponse.json();
             setLessons(lessonsData);

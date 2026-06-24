@@ -9,6 +9,7 @@ import { Progress } from '../ui/progress';
 import { Textarea } from '../ui/textarea';
 import { motion, AnimatePresence } from 'motion/react';
 import { toast } from 'sonner';
+import { API_BASE_URL } from '../../../lib/api';
 import { lessonsListCache } from '../../../lib/lessons-cache';
 
 interface UploadLessonProps {
@@ -97,7 +98,7 @@ export function UploadLesson({ open, onOpenChange, onSuccess }: UploadLessonProp
       formData.append('title', lessonTitle.trim());
       formData.append('file', selectedFile);
 
-      const response = await fetch('http://localhost:8080/api/lessons/upload', {
+      const response = await fetch(`${API_BASE_URL}/lessons/upload`, {
         method: 'POST',
         body: formData,
       });
@@ -139,7 +140,7 @@ export function UploadLesson({ open, onOpenChange, onSuccess }: UploadLessonProp
     setFileName('Text Content');
 
     try {
-      const response = await fetch('http://localhost:8080/api/lessons/upload', {
+      const response = await fetch(`${API_BASE_URL}/lessons/upload`, {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json',

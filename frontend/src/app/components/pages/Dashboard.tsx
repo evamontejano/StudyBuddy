@@ -20,7 +20,7 @@ import {
 import { mockLessons, type Lesson } from '../../../lib/mock-data';
 import { UploadLesson } from '../upload/UploadLesson';
 import { toast } from 'sonner';
-import { lessonApi, type ProgressSummary } from '../../../lib/api';
+import { API_BASE_URL, lessonApi, type ProgressSummary } from '../../../lib/api';
 import { lessonsListCache, type APILesson } from '../../../lib/lessons-cache';
 
 export function Dashboard() {
@@ -51,7 +51,7 @@ export function Dashboard() {
           return;
         }
 
-        const response = await fetch(`http://localhost:8080/api/lessons?userId=${userId}`);
+        const response = await fetch(`${API_BASE_URL}/lessons?userId=${userId}`);
         
         if (!response.ok) {
           throw new Error('Failed to fetch lessons');
@@ -93,7 +93,7 @@ export function Dashboard() {
 
     setIsDeleting(true);
     try {
-      const response = await fetch(`http://localhost:8080/api/lessons/${lessonToDelete}`, {
+      const response = await fetch(`${API_BASE_URL}/lessons/${lessonToDelete}`, {
         method: 'DELETE',
       });
 
@@ -299,7 +299,7 @@ export function Dashboard() {
           const userId = localStorage.getItem('userId');
           if (userId) {
             try {
-              const response = await fetch(`http://localhost:8080/api/lessons?userId=${userId}`);
+              const response = await fetch(`${API_BASE_URL}/lessons?userId=${userId}`);
               if (response.ok) {
                 const data = await response.json();
                 setLessons(data);

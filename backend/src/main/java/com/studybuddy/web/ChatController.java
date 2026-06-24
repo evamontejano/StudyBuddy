@@ -1,5 +1,6 @@
 package com.studybuddy.web;
 
+import com.studybuddy.ai.BedrockService;
 import com.studybuddy.domain.ChatMessage;
 import com.studybuddy.domain.ChatSession;
 import com.studybuddy.domain.Lesson;
@@ -25,14 +26,17 @@ public class ChatController {
     private final ChatSessionRepository sessionRepo;
     private final LessonRepository lessonRepo;
     private final Optional<ChatModel> chatModel;
+    private final BedrockService bedrockService;
     private final Environment env;
 
     public ChatController(ChatMessageRepository chatRepo, ChatSessionRepository sessionRepo,
-                         LessonRepository lessonRepo, Optional<ChatModel> chatModel, Environment env) {
+                         LessonRepository lessonRepo, Optional<ChatModel> chatModel,
+                         BedrockService bedrockService, Environment env) {
         this.chatRepo = chatRepo;
         this.sessionRepo = sessionRepo;
         this.lessonRepo = lessonRepo;
         this.chatModel = chatModel;
+        this.bedrockService = bedrockService;
         this.env = env;
     }
 
@@ -65,15 +69,23 @@ public class ChatController {
         chatRepo.save(userMsg);
 
         String replyText;
-        boolean aiAvailable = chatModel.isPresent();
-        if (aiAvailable) {
+        boolean aiAvailable = false;
+        if (chatModel.isPresent()) {
             try {
                 String prompt = buildPromptWithContext(req);
-
                 replyText = chatModel.get().call(prompt);
+                aiAvailable = true;
+            } catch (Exception ex) {
+                log.warn("Ollama call failed, trying Bedrock: {}", ex.getMessage());
+                replyText = tryBedrock(buildPromptWithContext(req));
+                aiAvailable = bedrockService.isEnabled();
+            }
+        } else if (bedrockService.isEnabled()) {
+            try {
+                replyText = tryBedrock(buildPromptWithContext(req));
+                aiAvailable = true;
             } catch (Exception ex) {
                 replyText = "AI service error: " + ex.getMessage();
-                aiAvailable = false;
             }
         } else {
             replyText = "AI service is not available right now. Please try again later.";
@@ -125,5 +137,10 @@ public class ChatController {
 
         log.info("Built context-aware prompt for lesson '{}' (ID: {})", lesson.getTitle(), lesson.getId());
         return prompt.toString();
+    }
+
+    private String tryBedrock(String prompt) {
+        log.info("Routing AI call to Amazon Bedrock");
+        return bedrockService.call(prompt);
     }
 }
